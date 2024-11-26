@@ -3,14 +3,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Send, Paperclip, ChevronDown } from 'lucide-react';
+import { Send, Paperclip } from 'lucide-react';
 
-const EmailComposer = () => {
-  const [emailData, setEmailData] = useState({
-    to: '',
-    subject: '',
-    body: ''
-  });
+const EmailComposer = ({ emailData, setEmailData }) => {
   const [isSending, setIsSending] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -19,29 +14,32 @@ const EmailComposer = () => {
     setTimeout(() => {
       setIsSending(false);
       setShowConfirmation(true);
-      setEmailData({ to: '', subject: '', body: '' });
+      setEmailData({ to: '', subject: '', body: '', from: '' });
       setTimeout(() => setShowConfirmation(false), 3000);
     }, 1500);
   };
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="w-full max-w-2xl mx-auto my-4">
       <CardHeader className="bg-gray-50 border-b p-4">
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
             <span className="w-16 text-gray-500">From:</span>
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-700">user@example.com</span>
-              <ChevronDown className="h-4 w-4 text-gray-500" />
-            </div>
+            <input
+              type="email"
+              value={emailData?.from || ''}
+              onChange={(e) => setEmailData({ ...emailData, from: e.target.value })}
+              className="flex-1 bg-transparent focus:outline-none border-b border-gray-300"
+              placeholder="sender@example.com"
+            />
           </div>
           <div className="flex items-center space-x-2">
             <span className="w-16 text-gray-500">To:</span>
             <input
               type="email"
-              value={emailData.to}
+              value={emailData?.to || ''}
               onChange={(e) => setEmailData({ ...emailData, to: e.target.value })}
-              className="flex-1 bg-transparent focus:outline-none"
+              className="flex-1 bg-transparent focus:outline-none border-b border-gray-300"
               placeholder="recipient@example.com"
             />
           </div>
@@ -49,9 +47,9 @@ const EmailComposer = () => {
             <span className="w-16 text-gray-500">Subject:</span>
             <input
               type="text"
-              value={emailData.subject}
+              value={emailData?.subject || ''}
               onChange={(e) => setEmailData({ ...emailData, subject: e.target.value })}
-              className="flex-1 bg-transparent focus:outline-none"
+              className="flex-1 bg-transparent focus:outline-none border-b border-gray-300"
               placeholder="Email subject"
             />
           </div>
@@ -60,9 +58,9 @@ const EmailComposer = () => {
       
       <CardContent className="p-4">
         <textarea
-          value={emailData.body}
+          value={emailData?.body || ''}
           onChange={(e) => setEmailData({ ...emailData, body: e.target.value })}
-          className="w-full h-64 resize-none focus:outline-none"
+          className="w-full h-64 resize-none focus:outline-none border border-gray-300"
           placeholder="Write your message here..."
         />
       </CardContent>
