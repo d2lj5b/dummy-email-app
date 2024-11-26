@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,13 +16,10 @@ const EmailComposer = () => {
 
   const handleSend = () => {
     setIsSending(true);
-    // Simulate sending delay
     setTimeout(() => {
       setIsSending(false);
       setShowConfirmation(true);
-      // Reset form after "sending"
       setEmailData({ to: '', subject: '', body: '' });
-      // Hide confirmation after 3 seconds
       setTimeout(() => setShowConfirmation(false), 3000);
     }, 1500);
   };
@@ -93,7 +92,7 @@ const EmailComposer = () => {
                 <Send className="h-4 w-4 mr-2" />
                 Send
               </span>
-            )}
+            )}  
           </Button>
         </div>
       </CardFooter>
